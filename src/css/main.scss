@@ -1,0 +1,9 @@
+$bg: url("../assets/02.jpg");
+body {
+  background-image: $bg;
+}
+
+div {
+  transform: translateZ(90px);
+  user-select: none;
+}
