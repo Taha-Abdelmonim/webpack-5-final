@@ -7,7 +7,7 @@ npm install or yarn install
 npm run dev or prod
 
 ===================================================================
-entry: {
+<!-- entry: {
 index: path.resolve(**dirname, "../", "src/js/main.js"),
 about: path.resolve(**dirname, "../", "src/js/pages/about.js"),
 },
@@ -24,4 +24,4 @@ btn.addEventListener("click", () => {
 import(/_ webpackChunkName: "pref" _/ "./pages/about").then((btn) => {
 btn.showAlert();
 });
-});
+}); -->
