@@ -3,13 +3,12 @@ const path = require("path");
 
 module.exports = {
   mode: "development",
-  
   devServer: {
     static: {
       directory: path.join(__dirname, "../", "dist"),
       watch: true,
     },
-    watchFiles: "src/**/*.js",
+    watchFiles: "src/**/*.*",
     liveReload: true,
     hot: false,
     port: 9000,

@@ -5,7 +5,8 @@ const path = require("path"),
   webpack = require("webpack"),
   autoprefixer = require("autoprefixer"),
   miniCssExtractPlugin = require("mini-css-extract-plugin"),
-  OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+  OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin"),
+  CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   devtool: "eval-source-map",
@@ -34,7 +35,8 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        use: [miniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+        // miniCssExtractPlugin.loader,
       },
       {
         test: /\.js$/,
@@ -42,8 +44,16 @@ module.exports = {
         use: ["babel-loader"],
       },
       {
-        test: /\.(png|jpg|woff(2)?|ttf|otf|eot|svg)$/,
+        test: /\.(png|jpg|jpeg|ico|webp|woff(2)?|ttf|otf|eot|svg)$/,
         type: "asset/resource",
+        use: [
+          {
+            loader: "webp-loader",
+            options: {
+              quality: 13,
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
@@ -65,11 +75,6 @@ module.exports = {
       filename: "index.html",
       template: "./src/html/index.pug",
     }),
-    new HtmlWebpackPlugin({
-      inject: false,
-      filename: "pages/about.html",
-      template: "./src/html/pages/about.pug",
-    }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [path.join(__dirname, "../dist")],
     }),
@@ -77,6 +82,24 @@ module.exports = {
       options: {
         postcss: [autoprefixer()],
       },
+    }),
+    // noErrorOnMissing: true,
+    new CopyPlugin({
+      patterns: [
+        { from: "src/robots.txt", to: "robots.txt" },
+        { from: "src/sitemap.xml", to: "sitemap.xml" },
+        { from: "src/html/google766e914e8e3c9562.html", to: "google766e914e8e3c9562.html" },
+        { from: "src/html/404.html", to: "404.html" },
+        // {
+        //   from: "src/html/.htaccess",
+        //   to: ".htaccess",
+        //   globOptions: {
+        //     dot: true,
+        //     noErrorOnMissing: true,
+        //     ignore: ["**/.gitkeep"],
+        //   },
+        // },
+      ],
     }),
 
     new miniCssExtractPlugin(),
